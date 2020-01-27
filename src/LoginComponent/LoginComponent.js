@@ -11,9 +11,10 @@ import {
 } from "react-native";
 import { Avatar } from "react-native-elements";
 import { NavigationActions, StackActions } from "react-navigation";
+import { connect } from "react-redux";
 const { height, width } = Dimensions.get("window");
 
-export default class LoginComponent extends React.Component {
+class LoginComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,6 +42,10 @@ export default class LoginComponent extends React.Component {
 
   _loginPress() {
     if (this.emailValidation()) {
+      this.props.dispatch({
+        type: "LOGIN_STATUS",
+        payload: { loginStatus: true }
+      });
       this.props.navigation.dispatch(
         StackActions.reset({
           index: 0,
@@ -202,3 +207,11 @@ const styles = StyleSheet.create({
     marginLeft: 200
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    loginStatus: state.storeValue.isLoggedIn
+  };
+}
+
+export default connect(mapStateToProps)(LoginComponent);

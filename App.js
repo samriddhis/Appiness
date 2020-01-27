@@ -9,14 +9,39 @@
 
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
-import { createStore, combineReducer } from "redux";
+import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
 import RouterComponent from "./RouterComponent";
+
+const initialState = {
+  isLoggedIn: false
+};
+
+const storeValue = (state = initialState, action) => {
+  switch (action.type) {
+    case "LOGIN_STATUS":
+      return {
+        ...state,
+        isLoggedIn: action.payload.loginStatus
+      };
+
+    default:
+      return state;
+  }
+};
+
+const reducer = combineReducers({
+  storeValue: storeValue
+});
+
+const store = createStore(reducer);
 
 export default class App extends Component {
   render() {
     return (
-      <RouterComponent/>
+      <Provider store={store}>
+        <RouterComponent />
+      </Provider>
     );
   }
 }

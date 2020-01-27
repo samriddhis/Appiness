@@ -11,10 +11,11 @@ import {
 
 import data from "../../Data.json";
 const { height, width } = Dimensions.get("window");
-import { Icon, SearchBar } from "react-native-elements";
+import { Icon } from "react-native-elements";
+import { connect } from "react-redux";
 import HeaderComponent from "./HeaderComponent.js";
 
-export default class ListComponent extends React.Component {
+class ListComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = { listData: data, listScrollHeight: 0, showLoadMask: false };
@@ -100,71 +101,80 @@ export default class ListComponent extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <HeaderComponent />
-        {this.state.showLoadMask ? (
-          <Modal
-            transparent={true}
-            animationType={"none"}
-            visible={this.state.showLoadMask}
-          >
-            <View style={styles.modalBackground}>
-              <View style={styles.activityIndicatorWrapper}>
-                <Text style={styles.loadingTxtStyle}>Loading.....</Text>
-                <ActivityIndicator
-                  animating={this.state.showLoadMask}
-                  color="#00b5ec"
-                />
-              </View>
-            </View>
-          </Modal>
+        {this.props.loginStatus ? (
+          <View>
+            <HeaderComponent />
+            {this.state.showLoadMask ? (
+              <Modal
+                transparent={true}
+                animationType={"none"}
+                visible={this.state.showLoadMask}
+              >
+                <View style={styles.modalBackground}>
+                  <View style={styles.activityIndicatorWrapper}>
+                    <Text style={styles.loadingTxtStyle}>Loading.....</Text>
+                    <ActivityIndicator
+                      animating={this.state.showLoadMask}
+                      color="#00b5ec"
+                    />
+                  </View>
+                </View>
+              </Modal>
+            ) : (
+              <View />
+            )}
+            <FlatList
+              style={styles.listStyle}
+              ref={ref => (this.listRef = ref)}
+              data={this.state.listData}
+              renderItem={this._renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              enableEmptySections={true}
+              onScroll={event =>
+                this.setState({
+                  listScrollHeight: event.nativeEvent.contentOffset.y
+                })
+              }
+              stickyHeaderIndices={[0]}
+              ListHeaderComponent={() => {
+                if (this.state.listScrollHeight > height) {
+                  return (
+                    <View
+                      style={{
+                        width: width,
+                        height: height / 15,
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.listRef.scrollToIndex({
+                            animated: true,
+                            index: 0
+                          })
+                        }
+                        style={styles.TopButtonStyle}
+                      >
+                        <Text
+                          style={{
+                            fontSize: height / 55,
+                            color: "#008eec"
+                          }}
+                        >
+                          {`Scroll to top`}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  );
+                } else return null;
+              }}
+              ItemSeparatorComponent={() => <View style={styles.separator} />}
+            />
+          </View>
         ) : (
           <View />
         )}
-        <FlatList
-          style={styles.listStyle}
-          ref={ref => (this.listRef = ref)}
-          data={this.state.listData}
-          renderItem={this._renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          enableEmptySections={true}
-          onScroll={event =>
-            this.setState({
-              listScrollHeight: event.nativeEvent.contentOffset.y
-            })
-          }
-          stickyHeaderIndices={[0]}
-          ListHeaderComponent={() => {
-            if (this.state.listScrollHeight > height) {
-              return (
-                <View
-                  style={{
-                    width: width,
-                    height: height / 15,
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.listRef.scrollToIndex({ animated: true, index: 0 })
-                    }
-                    style={styles.TopButtonStyle}
-                  >
-                    <Text
-                      style={{
-                        fontSize: height / 55,
-                        color: "#008eec"
-                      }}
-                    >
-                      {`Scroll to top`}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            } else return null;
-          }}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
-        />
       </View>
     );
   }
@@ -232,3 +242,11 @@ const styles = StyleSheet.create({
     color: "gray"
   }
 });
+
+function mapStateToProps(state) {
+  return {
+    loginStatus: state.storeValue.isLoggedIn
+  };
+}
+
+export default connect(mapStateToProps)(ListComponent);
