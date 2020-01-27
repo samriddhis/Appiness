@@ -23,77 +23,17 @@ class ListComponent extends React.Component {
 
   _renderItem = ({ item, index }) => (
     <View style={styles.listViewStyle}>
-      <View style={styles.innerViewStyle}>
-        <View style={styles.iconViewStyle}>
-          <Icon
-            name="user"
-            type="antdesign"
-            color="gray"
-            size={18}
-            style={styles.iconStyle}
-          />
+      <View style={styles.idOuterViewStyle}>
+        <View style={styles.idInnerViewStyle}>
+          <Text style={styles.idTxtStyle}>{item.id}</Text>
         </View>
-        <Text style={styles.itemTextStyle}>Id : {item.id}</Text>
       </View>
-      <View style={styles.innerViewStyle}>
-        <View style={styles.iconViewStyle}>
-          <Icon
-            name="page"
-            type="foundation"
-            color="gray"
-            size={18}
-            style={styles.iconStyle}
-          />
-        </View>
-        <Text style={styles.itemTextStyle}>Name:{item.name}</Text>
-      </View>
-      <View style={styles.innerViewStyle}>
-        <View style={styles.iconViewStyle}>
-          <Icon
-            name="date-range"
-            type="material"
-            color="gray"
-            size={18}
-            style={styles.iconStyle}
-          />
-        </View>
-        <Text style={styles.itemTextStyle}>Age:{item.age}</Text>
-      </View>
-      <View style={styles.innerViewStyle}>
-        <View style={styles.iconViewStyle}>
-          <Icon
-            name="location"
-            type="evilicon"
-            color="gray"
-            size={22}
-            style={styles.iconStyle}
-          />
-        </View>
-        <Text style={styles.itemTextStyle}>Gender:{item.gender}</Text>
-      </View>
-      <View style={styles.innerViewStyle}>
-        <View style={styles.iconViewStyle}>
-          <Icon
-            name="users"
-            type="feather"
-            color="gray"
-            size={18}
-            style={styles.iconStyle}
-          />
-        </View>
-        <Text style={styles.itemTextStyle}>Email:{item.email}</Text>
-      </View>
-      <View style={styles.innerViewStyle}>
-        <View style={styles.iconViewStyle}>
-          <Icon
-            name="address"
-            type="entypo"
-            color="gray"
-            size={16}
-            style={styles.iconStyle}
-          />
-        </View>
-        <Text style={styles.itemTextStyle}>Number:{item.phoneNo}</Text>
+      <View style={styles.detailsStyle}>
+        <Text style={styles.itemTextStyle}>Name : {item.name}</Text>
+        <Text style={styles.itemTextStyle}>Age : {item.age}</Text>
+        <Text style={styles.itemTextStyle}>Gender : {item.gender}</Text>
+        <Text style={styles.itemTextStyle}>Email : {item.email}</Text>
+        <Text style={styles.itemTextStyle}>Phone no : {item.phoneNo}</Text>
       </View>
     </View>
   );
@@ -154,7 +94,7 @@ class ListComponent extends React.Component {
                             index: 0
                           })
                         }
-                        style={styles.TopButtonStyle}
+                        style={styles.topButtonStyle}
                       >
                         <Text
                           style={{
@@ -187,24 +127,20 @@ const styles = StyleSheet.create({
   },
   separator: {
     width: width,
-    height: 15,
+    height: 12,
     backgroundColor: "#ececec"
   },
   listViewStyle: {
+    flexDirection: "row",
     backgroundColor: "#FFFFFF",
-    padding: 10,
+    padding: 8,
     borderRadius: 10
   },
-  innerViewStyle: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
   itemTextStyle: {
-    fontSize: 16,
-    color: "#3498db",
-    marginLeft: 10
+    fontSize: 14,
+    color:"gray"
   },
-  TopButtonStyle: {
+  topButtonStyle: {
     width: width / 3,
     height: height / 20,
     borderRadius: width / 30,
@@ -217,10 +153,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   listStyle: {
-    padding: 10
-  },
-  iconViewStyle: {
-    width: 20
+    padding: 8
   },
   modalBackground: {
     flex: 1,
@@ -240,6 +173,29 @@ const styles = StyleSheet.create({
   },
   loadingTxtStyle: {
     color: "gray"
+  },
+  detailsStyle: {
+    flex: 0.8,
+    flexDirection: "column",
+    padding: 10
+  },
+  idOuterViewStyle: {
+    flex: 0.2,
+    justifyContent:"center",
+    alignItems:"center"
+  },
+  idInnerViewStyle: {
+    width: 60,
+    height: 60,
+    borderRadius: 60,
+    backgroundColor: "#008eed",
+    justifyContent:"center",
+    alignItems:"center"
+  },
+  idTxtStyle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color:"white"
   }
 });
 

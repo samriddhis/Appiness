@@ -4,10 +4,9 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  TouchableOpacity
+  StatusBar
 } from "react-native";
-const { width, height } = Dimensions.get("window");
-import { Icon } from "react-native-elements";
+const { width} = Dimensions.get("window");
 
 export default class HeaderComponent extends React.Component {
   constructor(props) {
@@ -16,9 +15,10 @@ export default class HeaderComponent extends React.Component {
 
   render() {
     return (
-      <View style={Styles.OuterContainer}>
-        <View style={Styles.TitleViewStyle}>
-          <Text style={Styles.TitleStyle}>DashBoard</Text>
+      <View style={Styles.outerContainer}>
+        <StatusBar backgroundColor="#0966aa" barStyle="light-content" />
+        <View style={Styles.titleViewStyle}>
+          <Text style={Styles.titleStyle}>DashBoard</Text>
         </View>
       </View>
     );
@@ -26,7 +26,7 @@ export default class HeaderComponent extends React.Component {
 }
 
 const Styles = StyleSheet.create({
-  OuterContainer: {
+  outerContainer: {
     height: 50,
     width: width,
     backgroundColor: "#0966aa",
@@ -34,12 +34,12 @@ const Styles = StyleSheet.create({
     padding: 10,
     elevation: 10
   },
-  TitleViewStyle: {
+  titleViewStyle: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
   },
-  TitleStyle: {
+  titleStyle: {
     fontSize: 22,
     color: "#fff"
   }

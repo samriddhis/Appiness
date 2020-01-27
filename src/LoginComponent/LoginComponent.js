@@ -7,7 +7,8 @@ import {
   Dimensions,
   StyleSheet,
   ImageBackground,
-  Switch
+  Switch,
+  StatusBar
 } from "react-native";
 import { Avatar } from "react-native-elements";
 import { NavigationActions, StackActions } from "react-navigation";
@@ -57,6 +58,10 @@ class LoginComponent extends React.Component {
 
   _signupPress() {
     if (this.emailValidation()) {
+      this.props.dispatch({
+        type: "LOGIN_STATUS",
+        payload: { loginStatus: true }
+      });
       this.props.navigation.dispatch(
         StackActions.reset({
           index: 0,
@@ -75,18 +80,19 @@ class LoginComponent extends React.Component {
   }
   render() {
     return (
-      <View style={styles.ImageOuterContainer}>
+      <View style={styles.imageOuterContainer}>
+        <StatusBar backgroundColor="#1ADF90" barStyle="light-content" />
         <ImageBackground
           style={styles.imageStyle}
           source={require("../../images/background.jpg")}
         >
-          <View style={styles.AccViewStyle}>
-            <Text style={styles.AccTextStyle}>{"My Account"}</Text>
+          <View style={styles.accViewStyle}>
+            <Text style={styles.accTextStyle}>{"My Account"}</Text>
           </View>
 
-          <View style={styles.OuterContainer}>
+          <View style={styles.outerContainer}>
             <TextInput
-              style={styles.LoginStyle}
+              style={styles.loginStyle}
               underlineColorAndroid="#D3D3D3"
               placeholder="User name"
               onChangeText={userName => this.setState({ userName })}
@@ -94,24 +100,24 @@ class LoginComponent extends React.Component {
             />
             <TextInput
               secureTextEntry={true}
-              style={styles.PasswordStyle}
+              style={styles.passwordStyle}
               underlineColorAndroid="#D3D3D3"
               placeholder="Password"
               onChangeText={passWord => this.setState({ passWord })}
               value={this.state.passWord}
             />
-            <Text style={styles.ForgotTextStyle}>{"Forgot Password?"}</Text>
+            <Text style={styles.forgotTextStyle}>{"Forgot Password?"}</Text>
             <Switch
-              style={styles.SwitchStyle}
+              style={styles.switchStyle}
               value={this.state.switchValue}
               onValueChange={() => this._toggleSwitch()}
             />
-            <Text style={styles.CurrentPageTextStyle}>
+            <Text style={styles.currentPageTextStyle}>
               {this.state.switchValue ? "Login" : "SignUp"}
             </Text>
             {this.state.switchValue ? (
               <TouchableOpacity
-                style={styles.ButtonStyle}
+                style={styles.buttonStyle}
                 color="#0966aa"
                 onPress={() => this._loginPress()}
               >
@@ -119,7 +125,7 @@ class LoginComponent extends React.Component {
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                style={styles.ButtonStyle}
+                style={styles.buttonStyle}
                 color="#0966aa"
                 onPress={() => this._signupPress()}
               >
@@ -127,8 +133,8 @@ class LoginComponent extends React.Component {
               </TouchableOpacity>
             )}
 
-            <View style={styles.IconStyle}>
-              <View style={styles.IconRoundStyle}>
+            <View style={styles.iconStyle}>
+              <View style={styles.iconRoundStyle}>
                 <Avatar
                   rounded
                   size="medium"
@@ -145,16 +151,16 @@ class LoginComponent extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  AccViewStyle: {
+  accViewStyle: {
     width: width / 2,
     height: height / 10,
     alignItems: "center"
   },
-  AccTextStyle: {
+  accTextStyle: {
     color: "#fff",
     fontSize: 25
   },
-  IconStyle: {
+  iconStyle: {
     width: width / 5,
     height: height / 10,
     borderRadius: 40,
@@ -164,7 +170,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -40
   },
-  IconRoundStyle: {
+  iconRoundStyle: {
     width: width / 7,
     height: height / 14,
     borderRadius: 40,
@@ -178,7 +184,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  OuterContainer: {
+  outerContainer: {
     width: width / 1.3,
     height: height / 2.3,
     backgroundColor: "white",
@@ -188,10 +194,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20
   },
-  LoginStyle: { width: width / 1.8 },
-  PasswordStyle: { marginTop: 10, width: width / 1.8 },
-  ForgotTextStyle: { marginLeft: 100, marginTop: 10 },
-  ButtonStyle: {
+  loginStyle: { width: width / 1.8 },
+  passwordStyle: { marginTop: 10, width: width / 1.8 },
+  forgotTextStyle: { marginLeft: 100, marginTop: 10 },
+  buttonStyle: {
     marginTop: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -200,10 +206,10 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: "#0966aa"
   },
-  SwitchStyle: {
+  switchStyle: {
     marginLeft: 200
   },
-  CurrentPageTextStyle: {
+  currentPageTextStyle: {
     marginLeft: 200
   }
 });
