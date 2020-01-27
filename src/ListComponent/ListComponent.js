@@ -5,7 +5,7 @@ import {
   View,
   FlatList,
   Dimensions,
-  Alert,
+  Modal,
   TouchableOpacity
 } from "react-native";
 
@@ -17,7 +17,7 @@ import HeaderComponent from "./HeaderComponent.js";
 export default class ListComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { listData: data, listScrollHeight: 0 };
+    this.state = { listData: data, listScrollHeight: 0, showLoadMask: false };
   }
 
   _renderItem = ({ item, index }) => (
@@ -80,9 +80,7 @@ export default class ListComponent extends React.Component {
             style={styles.iconStyle}
           />
         </View>
-        <Text style={styles.itemTextStyle}>
-          Email:{item.email}
-        </Text>
+        <Text style={styles.itemTextStyle}>Email:{item.email}</Text>
       </View>
       <View style={styles.innerViewStyle}>
         <View style={styles.iconViewStyle}>
@@ -103,6 +101,25 @@ export default class ListComponent extends React.Component {
     return (
       <View style={styles.container}>
         <HeaderComponent />
+        {this.state.showLoadMask ? (
+          <Modal
+            transparent={true}
+            animationType={"none"}
+            visible={this.state.showLoadMask}
+          >
+            <View style={styles.modalBackground}>
+              <View style={styles.activityIndicatorWrapper}>
+                <Text style={styles.loadingTxtStyle}>Loading.....</Text>
+                <ActivityIndicator
+                  animating={this.state.showLoadMask}
+                  color="#00b5ec"
+                />
+              </View>
+            </View>
+          </Modal>
+        ) : (
+          <View />
+        )}
         <FlatList
           style={styles.listStyle}
           ref={ref => (this.listRef = ref)}
@@ -194,5 +211,24 @@ const styles = StyleSheet.create({
   },
   iconViewStyle: {
     width: 20
+  },
+  modalBackground: {
+    flex: 1,
+    alignItems: "center",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    backgroundColor: "#00000040"
+  },
+  activityIndicatorWrapper: {
+    backgroundColor: "#FFFFFF",
+    height: 100,
+    width: 100,
+    borderRadius: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-around"
+  },
+  loadingTxtStyle: {
+    color: "gray"
   }
 });

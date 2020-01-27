@@ -25,41 +25,40 @@ export default class LoginComponent extends React.Component {
 
   emailValidation() {
     var email = this.state.userName;
-    var atposition = email.indexOf("@");
-    var dotposition = email.lastIndexOf(".");
+    var atPosition = email.indexOf("@");
+    var dotPosition = email.lastIndexOf(".");
 
     if (
-      atposition < 1 ||
-      dotposition < atposition + 2 ||
-      dotposition + 2 >= x.length
+      atPosition < 1 ||
+      dotPosition < atPosition + 2 ||
+      dotPosition + 2 >= email.length
     ) {
-      alert(
-        "Please enter a valid e-mail address \n atpostion:" +
-          atposition +
-          "\n dotposition:" +
-          dotposition
-      );
+      alert("Please enter a valid e-mail address....");
       return false;
     }
     return true;
   }
 
   _loginPress() {
-    this.props.navigation.dispatch(
-      StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: "ListScreen" })]
-      })
-    );
+    if (this.emailValidation()) {
+      this.props.navigation.dispatch(
+        StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: "ListScreen" })]
+        })
+      );
+    }
   }
 
   _signupPress() {
-    this.props.navigation.dispatch(
-      StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: "ListScreen" })]
-      })
-    );
+    if (this.emailValidation()) {
+      this.props.navigation.dispatch(
+        StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: "ListScreen" })]
+        })
+      );
+    }
   }
 
   _toggleSwitch() {
